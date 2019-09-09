@@ -38,9 +38,7 @@ end
 xlabel('X')
 ylabel('Y')
 zlabel('Z')
-%axis off
 view(3), axis vis3d
-% camproj perspective, rotate3d on
 campos([100,100,100])
 %%
 for cycle=1:100
