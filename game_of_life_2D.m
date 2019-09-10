@@ -2,7 +2,7 @@
 tic
 
 % random world
-random = 0; % if set to zero load a 2d matrix named "starting_world"
+random = 1; % if set to zero load a 2d matrix named "starting_world"
 domain_size = [64 64]; % row,column
 
 % draw in real time?
