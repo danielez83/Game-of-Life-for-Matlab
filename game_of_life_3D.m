@@ -6,6 +6,7 @@ tic
 
 % Configuration
 random = 0; % 1 for generating a random world
+display_plot = 1; % 0 for no graphical output, 1 for boxes
 %world = false(30, 30, 30); % x,y,z
 % load('world_1.mat')
 jet_palette = jet(100);
@@ -26,7 +27,7 @@ if random~=1
     good_world = world; % save a copy of initial word
 end
 
-figure('Color','black') 
+figure('Color','black')
 for cycle=1:20
     pause(0.1);
     clf
@@ -53,24 +54,28 @@ for cycle=1:20
         end
     end
     world = world_buffer;
-    
-    col_index_array = zeros(size(world, 1)*size(world, 3)*size(world, 3),1);
-    col_index_array_index = 1;
-    for x=4:size(world, 1)-3
-        for y=4:size(world, 2)-3
-            for z=4:size(world, 3)-3
-                if world(x,y,z)
-                    col_index = sum(sum(sum(world(x-3:x+3,y-3:y+3,z-3:z+3))));
-                    col_index_array(col_index_array_index) = col_index;
-                    plotcube([1 1 1],[x  y  z],.95,jet_palette(col_index, :))
-                    col_index_array_index = col_index_array_index + 1;
+    switch display_plot
+        case 0
+            % DO NOTHING
+        case 1
+            col_index_array = zeros(size(world, 1)*size(world, 3)*size(world, 3),1);
+            col_index_array_index = 1;
+            for x=4:size(world, 1)-3
+                for y=4:size(world, 2)-3
+                    for z=4:size(world, 3)-3
+                        if world(x,y,z)
+                            col_index = sum(sum(sum(world(x-3:x+3,y-3:y+3,z-3:z+3))));
+                            col_index_array(col_index_array_index) = col_index;
+                            plotcube([1 1 1],[x  y  z],.95,jet_palette(col_index, :))
+                            col_index_array_index = col_index_array_index + 1;
+                        end
+                    end
                 end
             end
-        end
+            axis off
+            view(3)
+            str = sprintf('Generation: %d\nPopulation: %d\nMax Density: %d', cycle, sum(sum(sum(world))), max(col_index_array));
+            text(15,50, 20, str,'Color','red','FontSize',14)
     end
-    axis off
-    view(3)
-    str = sprintf('Generation: %d\nPopulation: %d\nMax Density: %d', cycle, sum(sum(sum(world))), max(col_index_array));
-    text(15,50, 20, str,'Color','red','FontSize',14)
 end
 toc
