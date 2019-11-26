@@ -28,7 +28,7 @@ if random~=1
 end
 
 figure('Color','black')
-for cycle=1:20
+for cycle=1:50
     pause(0.1);
     clf
     title(cycle)
